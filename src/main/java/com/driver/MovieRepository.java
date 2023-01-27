@@ -27,15 +27,16 @@ public class MovieRepository {
     }
 
     public String addMovieDirectorPair(String movieName,String directorName){
-        if(!movieDB.containsKey(movieName) || !directorDB.containsKey(directorName))
-            return "Movie or Director doesn't exist in the list, proceed to add first";
-        List<String> movieList=pairDB.getOrDefault(directorName,new ArrayList<>());
-        if(movieList.contains(movieName))
-            return "Movie already exist";
-
-        movieList.add(movieName);
-        pairDB.put(directorName,movieList);
-        return "Pair added successfully";
+        if(movieDB.containsKey(movieName) && directorDB.containsKey(directorName)){
+            movieDB.put(movieName, movieDB.get(movieName));
+            directorDB.put(directorName, directorDB.get(directorName));
+            List<String> currentMovies = new ArrayList<String>();
+            if(pairDB.containsKey(directorName)) currentMovies = pairDB.get(directorName);
+            currentMovies.add(movieName);
+            pairDB.put(directorName, currentMovies);
+            return "Success!!";
+        }
+        return "Doesn't exist";
     }
 
     public Movie getMovieByName(String movieName){
